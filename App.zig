@@ -16,12 +16,10 @@ colors: Colors = .{},
 /// The Adwaita color variables.
 pub const Colors = @import("Colors.zig");
 
-/// Adwaita's own alpha for its shadows, kept so shadows stay soft.
-const shade_alpha = 0.25;
-
 /// Colors from the theme: windows from black (white in light mode) with its surface steps,
 /// text from white, the accent cyan and the states red, green and yellow, each with readable
-/// text from the theme's `contrast.on`. Friends' states are gray, cyan and green.
+/// text from the theme's `contrast.on`; shadows are the theme's `surface.shadow`, alpha
+/// included. Friends' states are gray, cyan and green.
 pub fn from(theme: kosm.Theme) App {
     const palette = theme.palette;
     const variations = theme.variations;
@@ -29,8 +27,7 @@ pub fn from(theme: kosm.Theme) App {
     const background = if (theme.mode == .dark) palette.black else palette.white;
     const raised = variations.surface.raised.apply(background);
     const overlay = variations.surface.overlay.apply(background);
-    var shade = variations.surface.shadow.apply(background);
-    shade.alpha = shade_alpha;
+    const shade = variations.surface.shadow.apply(background);
     const on = variations.contrast.on;
     const bright = variations.lightness.bright;
     return .{ .colors = .{
@@ -182,7 +179,7 @@ test "variables are written as r, g, b and !important, alphas beside the colors 
     try testing.expect(std.mem.indexOf(u8, written, "  --adw-accent-bg-rgb: 45, 134, 153 !important;\n") != null);
     try testing.expect(std.mem.indexOf(u8, written, "  --adw-window-bg-rgb: 4, 28, 38 !important;\n  --adw-window-fg-rgb: 163, 197, 204 !important;\n") != null);
     try testing.expect(std.mem.indexOf(u8, written, "  --adw-card-bg-a: 1 !important;\n") != null);
-    try testing.expect(std.mem.indexOf(u8, written, "  --adw-shade-a: 0.25 !important;\n") != null);
+    try testing.expect(std.mem.indexOf(u8, written, "  --adw-shade-a: 0.5 !important;\n") != null);
     try testing.expect(std.mem.indexOf(u8, written, "--adw-error-rgb: ") != null);
     try testing.expect(std.mem.indexOf(u8, written, "--adw-window-bg-a") == null);
 }
