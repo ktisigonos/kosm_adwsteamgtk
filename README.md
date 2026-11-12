@@ -12,9 +12,9 @@ must be too). Where Adwaita keeps a color's opacity apart (`--adw-card-bg-a`, th
 
 After an apply, install the theme again in AdwSteamGtk with "Custom CSS" on, and restart Steam.
 
-`from(theme)` sets windows from black (white in light mode) with its surface steps, text from
-white, the accent cyan and the states red, green and yellow, each with readable text from the
-theme's `contrast.on`; shadows are the theme's `surface.shadow`, alpha included. Friends'
+`from(theme)` sets windows from the theme's background role with its surface steps, text from
+the foreground role, the accent and the error, success and warning roles, each with readable
+text from the theme's `contrast.on`; shadows are the theme's `surface.shadow`, alpha included. Friends'
 states are gray, cyan and green.
 
 ## Fields

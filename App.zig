@@ -16,36 +16,36 @@ colors: Colors = .{},
 /// The Adwaita color variables.
 pub const Colors = @import("Colors.zig");
 
-/// Colors from the theme: windows from black (white in light mode) with its surface steps,
-/// text from white, the accent cyan and the states red, green and yellow, each with readable
+/// Colors from the theme: windows from the background role with its surface steps, text from
+/// the foreground role, the accent and the error, success and warning roles, each with readable
 /// text from the theme's `contrast.on`; shadows are the theme's `surface.shadow`, alpha
 /// included. Friends' states are gray, cyan and green.
 pub fn from(theme: kosm.Theme) App {
     const palette = theme.palette;
     const variations = theme.variations;
-    const foreground = if (theme.mode == .dark) palette.white else palette.black;
-    const background = if (theme.mode == .dark) palette.black else palette.white;
+    const foreground = theme.roles.foreground;
+    const background = theme.roles.background;
     const raised = variations.surface.raised.apply(background);
     const overlay = variations.surface.overlay.apply(background);
     const shade = variations.surface.shadow.apply(background);
     const on = variations.contrast.on;
     const bright = variations.lightness.bright;
     return .{ .colors = .{
-        .accent_bg = palette.cyan,
-        .accent_fg = on.apply(palette.cyan),
-        .accent = bright.apply(palette.cyan),
-        .destructive_bg = palette.red,
-        .destructive_fg = on.apply(palette.red),
-        .destructive = bright.apply(palette.red),
-        .success_bg = palette.green,
-        .success_fg = on.apply(palette.green),
-        .success = bright.apply(palette.green),
-        .warning_bg = palette.yellow,
-        .warning_fg = on.apply(palette.yellow),
-        .warning = bright.apply(palette.yellow),
-        .error_bg = palette.red,
-        .error_fg = on.apply(palette.red),
-        .@"error" = bright.apply(palette.red),
+        .accent_bg = theme.roles.accent,
+        .accent_fg = on.apply(theme.roles.accent),
+        .accent = bright.apply(theme.roles.accent),
+        .destructive_bg = theme.roles.@"error",
+        .destructive_fg = on.apply(theme.roles.@"error"),
+        .destructive = bright.apply(theme.roles.@"error"),
+        .success_bg = theme.roles.success,
+        .success_fg = on.apply(theme.roles.success),
+        .success = bright.apply(theme.roles.success),
+        .warning_bg = theme.roles.warning,
+        .warning_fg = on.apply(theme.roles.warning),
+        .warning = bright.apply(theme.roles.warning),
+        .error_bg = theme.roles.@"error",
+        .error_fg = on.apply(theme.roles.@"error"),
+        .@"error" = bright.apply(theme.roles.@"error"),
         .window_bg = background,
         .window_fg = foreground,
         .view_bg = variations.surface.sunken.apply(background),
@@ -172,7 +172,7 @@ test "variables are written as r, g, b and !important, alphas beside the colors 
     var fixture: Fixture = undefined;
     try fixture.init(shipped);
     defer fixture.deinit();
-    try from(kosm.Theme.from(.{ .black = kosm.hex("041c26"), .white = kosm.hex("a3c5cc"), .cyan = kosm.hex("2d8699") }, .dark)).apply(&fixture.output);
+    try from(kosm.Theme.from(.{ .palette = .{ .black = kosm.hex("041c26"), .white = kosm.hex("a3c5cc"), .cyan = kosm.hex("2d8699") }, .mode = .dark })).apply(&fixture.output);
 
     const written = fixture.planned();
     try testing.expect(std.mem.startsWith(u8, written, shipped));
