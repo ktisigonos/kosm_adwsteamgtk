@@ -17,6 +17,8 @@ the foreground role, the accent and the error, success and warning roles, each w
 text from the theme's `contrast.on`; shadows are the theme's `surface.shadow`, alpha included. Friends'
 states are gray, cyan and green.
 
+`kosm doctor` checks that AdwSteamGtk is installed, as the `adwaita-steam-gtk` command.
+
 ## Fields
 
 | Field | Default |

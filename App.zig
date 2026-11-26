@@ -84,6 +84,12 @@ pub fn from(theme: kosm.Theme) App {
 /// How AdwSteamGtk's variables spell a color.
 const rgb: kosm.ColorFormat = .init("{}, {}, {}", &.{ .red_255, .green_255, .blue_255 });
 
+/// What `kosm doctor` checks: AdwSteamGtk installed, as the `adwaita-steam-gtk` command.
+pub fn checkup(self: App) kosm.Checkup {
+    _ = self;
+    return .{ .program = .{ .command = "adwaita-steam-gtk" } };
+}
+
 /// Writes the set variables as block `kosm` of `file`. Color themes mark theirs `!important`,
 /// so these are too.
 pub fn apply(self: App, output: *kosm.Output) !void {
